@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const server = require("../src/server");
+const server = require("../server");
 
 const closeApp = () =>
   new Promise((resolve, reject) => {

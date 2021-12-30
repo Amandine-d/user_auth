@@ -13,16 +13,26 @@ const createNewUser = async (req, res) => {
       if (existingUser) {
         return res.status(400).json({ error: "User already exists" });
       }
-    const user = new User({ email, password });
-    user.save();
-    return res.status(200).json( user );
+      const user = new User({ email, password });
+      user.save();
+      return res.status(200).json(user);
     })
-  .catch ((err) => {
-    return res.status(500).json({ error: err })
-  });
+    .catch((err) => {
+      return res.status(500).json({ error: err })
+    });
 
+}
+
+const listUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    return res.status(200).json(users);
+  } catch(err) {
+    return res.status(500).json({error: err})
+  } 
 }
 
 module.exports = {
   createNewUser,
+  listUsers,
 }

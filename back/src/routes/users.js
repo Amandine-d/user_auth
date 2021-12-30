@@ -5,4 +5,7 @@ router.post("/register",
   userController.createNewUser,
 );
 
+router.get("/users", userController.listUsers,
+);
+
 module.exports = router;

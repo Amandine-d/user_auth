@@ -1,6 +1,6 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
-const app = require("../src/server");
+const app = require("../server");
 const User = mongoose.model("User");
 
 const user = {
@@ -22,5 +22,14 @@ describe("app", () => {
     expect(countAfter).toEqual(countBefore + 1);
 
     User.deleteMany({ "email": user.email }).exec();
+  });
+
+  it("GET /users", async () => {
+    expect.assertions(1);
+    
+    const countUsers = await User.countDocuments().exec();
+    const res = await request(app).get("/users").expect(200);
+    
+    expect(res.body.length).toEqual(countUsers);
   });
 });
