@@ -11,14 +11,24 @@ const user = {
 describe("app", () => {
 
   it("POST /register", async () => {
-    expect.assertions(2);
+    expect.assertions(4);
+
     User.deleteMany({ "email": user.email }).exec();
 
+    // Sending incorrect informations should return 400
+    const resError = await request(app).post("/register").send({}).expect(400);
+    expect(resError.body).toEqual({ error: "Missing email or password" });
+
+    //Sending correct informations (email and password) should create a user
     const countBefore = await User.countDocuments().exec();
     const res = await request(app).post("/register").send(user).expect(200);
     expect(res.body.email).toEqual(user.email);
     const countAfter = await User.countDocuments().exec();
     expect(countAfter).toEqual(countBefore + 1);
+
+    //Sending twice the same email should return 400
+    const resDup = await request(app).post("/register").send(user).expect(400);
+    expect(resDup.body).toEqual({ error: "User already exists" });
 
     User.deleteMany({ "email": user.email }).exec();
   });
