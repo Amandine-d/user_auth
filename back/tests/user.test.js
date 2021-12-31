@@ -12,7 +12,6 @@ describe("app", () => {
 
   it("POST /register", async () => {
     expect.assertions(2);
-    
     User.deleteMany({ "email": user.email }).exec();
 
     const countBefore = await User.countDocuments().exec();
@@ -25,11 +24,23 @@ describe("app", () => {
   });
 
   it("GET /users", async () => {
-    expect.assertions(1);
-    
+    expect.assertions(2);
+    //create new user to make sure there is at least one
+    const newUser = new User(user);
+
     const countUsers = await User.countDocuments().exec();
     const res = await request(app).get("/users").expect(200);
-    
+
     expect(res.body.length).toEqual(countUsers);
+
+    // retrieve the first item
+    let first = res.body[0];
+
+    //toEqual(2) because we need only password and email
+    expect(Object.keys(first).length).toEqual(2);
+
+    //Delete user
+    newUser.delete();
+
   });
 });

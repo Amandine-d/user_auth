@@ -25,11 +25,14 @@ const createNewUser = async (req, res) => {
 
 const listUsers = async (req, res) => {
   try {
-    const users = await User.find({});
+    // We don't need the _id and the __v properties. mongodb was returning them automatically.
+    let users = await User.find({});
+    users = users.map(filter => ({ email: filter.email, password: filter.password }))
+
     return res.status(200).json(users);
-  } catch(err) {
-    return res.status(500).json({error: err})
-  } 
+  } catch (err) {
+    return res.status(500).json({ error: err })
+  }
 }
 
 module.exports = {
