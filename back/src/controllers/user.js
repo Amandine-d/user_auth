@@ -1,6 +1,7 @@
 // const User = require("../models/user");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = mongoose.model("User");
 
 const createNewUser = async (req, res) => {
@@ -40,7 +41,42 @@ const listUsers = async (req, res) => {
   }
 }
 
+const comparePassword = async (req, res, next) => {
+  //Return 400 if parameters are invalid
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ error: "Incorrect email or password" });
+  };
+
+  //get User
+  User.findOne({ email })
+    .then(existingUser => {
+      //Return 400 if user does not exist
+      if (!existingUser) {
+        return res.status(400).json({ error: "Incorrect email or password" })
+      }
+      //Compare password
+      bcrypt.compare(password, existingUser.password, function (err, result) {
+        if (result == true) {
+          res.locals.user = existingUser;
+          return next();
+        }
+        res.status(400).json({ error: "Incorrect email or password" })
+
+      })
+    })
+}
+
+const getToken = async (req, res) => {
+  const user = res.locals.user;
+  const token = jwt.sign({ email: user.email }, process.env.SECRET);
+  return res.status(200).json({ token: token });
+
+}
+
 module.exports = {
   createNewUser,
   listUsers,
+  comparePassword,
+  getToken,
 }

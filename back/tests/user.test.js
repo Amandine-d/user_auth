@@ -57,4 +57,22 @@ describe("app", () => {
     newUser.delete();
 
   });
+
+  it("POST /login", async () => {
+    expect.assertions(3);
+
+    User.deleteMany({ "email": user.email }).exec();
+
+    const resError = await request(app).post("/login").send({}).expect(400);
+    expect(resError.body).toEqual({ error: "Incorrect email or password" });
+
+    await request(app).post("/register").send(user).expect(200);
+    const resIncorrectPassword = await request(app).post("/login").send({ email: user.email, password: "invalidP@sswOrd" }).expect(400);
+    expect(resIncorrectPassword.body).toEqual({ error: "Incorrect email or password" });
+
+    const resCorrectPassword = await request(app).post("/login").send(user).expect(200);
+    expect(resCorrectPassword.body.hasOwnProperty("token")).toEqual(true);
+
+    User.deleteMany({ "email": user.email }).exec();
+  })
 });

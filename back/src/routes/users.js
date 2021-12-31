@@ -8,4 +8,7 @@ router.post("/register",
 router.get("/users", userController.listUsers,
 );
 
+router.post("/login", userController.comparePassword, userController.getToken,
+);
+
 module.exports = router;
