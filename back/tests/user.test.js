@@ -11,7 +11,7 @@ const user = {
 describe("app", () => {
 
   it("POST /register", async () => {
-    expect.assertions(4);
+    expect.assertions(6);
 
     User.deleteMany({ "email": user.email }).exec();
 
@@ -23,6 +23,10 @@ describe("app", () => {
     const countBefore = await User.countDocuments().exec();
     const res = await request(app).post("/register").send(user).expect(200);
     expect(res.body.email).toEqual(user.email);
+    //Make sure password is hashed with bcrypt
+    expect(res.body.password).not.toEqual(user.password);
+    const regex = /^\$2b\$/
+    expect(res.body.password).toMatch(regex);
     const countAfter = await User.countDocuments().exec();
     expect(countAfter).toEqual(countBefore + 1);
 

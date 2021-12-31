@@ -1,5 +1,6 @@
 // const User = require("../models/user");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const User = mongoose.model("User");
 
 const createNewUser = async (req, res) => {
@@ -13,9 +14,13 @@ const createNewUser = async (req, res) => {
       if (existingUser) {
         return res.status(400).json({ error: "User already exists" });
       }
-      const user = new User({ email, password });
-      user.save();
-      return res.status(200).json(user);
+      const saltRounds = 10;
+      bcrypt.hash(password, saltRounds, function (err, hashedPassword) {
+        // if (err) { return res.status(500).json({ error: err }) }
+        const user = new User({ email, password: hashedPassword });
+        user.save();
+        return res.status(200).json(user);
+      });
     })
     .catch((err) => {
       return res.status(500).json({ error: err })
