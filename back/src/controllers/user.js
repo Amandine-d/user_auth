@@ -1,10 +1,10 @@
-// const User = require("../models/user");
+const User = require("../models/user");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = mongoose.model("User");
+// const User = mongoose.model("User");
 
-const createNewUser = async (req, res) => {
+const createNewUser = async(req, res) => {
   console.log(req.body)
   const { email, password } = req.body;
   if (!email || !password) {
@@ -20,7 +20,7 @@ const createNewUser = async (req, res) => {
         // if (err) { return res.status(500).json({ error: err }) }
         const user = new User({ email, password: hashedPassword });
         user.save();
-        return res.status(200).json(user);
+        return res.status(201).json(user);
       });
     })
     .catch((err) => {
@@ -41,7 +41,7 @@ const listUsers = async (req, res) => {
   }
 }
 
-const comparePassword = async (req, res, next) => {
+const comparePassword = (req, res, next) => {
   //Return 400 if parameters are invalid
   const { email, password } = req.body;
   if (!email || !password) {
@@ -49,7 +49,8 @@ const comparePassword = async (req, res, next) => {
   };
 
   //get User
-  User.findOne({ email })
+  User.findOne({ email: email })
+    // console.log('Adde .body.email', req.body.email)
     .then(existingUser => {
       //Return 400 if user does not exist
       if (!existingUser) {
