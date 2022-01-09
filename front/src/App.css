@@ -1,0 +1,79 @@
+/*
+=============== 
+Variables
+===============
+*/
+:root {
+  --color-text: #fff;
+  --btn-clear: hsl(205, 78%, 60%);
+  --btn-dark: hsl(205, 86%, 17%);
+  --transition: all 0.3s linear;
+  --border: 1px solid rgb(37, 4, 25);
+  --box-shadow: 5px 2px rgb(39, 16, 30);
+}
+
+
+.App {
+  text-align: center;
+  height: 100vh;
+}
+
+.App-header {
+  background-color: var(--btn-dark);
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+button {
+  display: inline-block;
+  background: var(--btn-dark);
+  color: var(--color-text);
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  border-color: transparent;
+  text-transform: capitalize;
+  font-size: 1rem;
+  font-weight: bolder;
+  letter-spacing: 0.1rem;
+  margin: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+button:hover {
+  background: var(--btn-clear);
+  color: var(--btn-dark);
+}
+.container__form {
+  display: block;
+  text-align: center;
+}
+
+form {
+  display: inline-block;
+  margin-left: auto;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  border: var(--border);
+  box-shadow: var(--box-shadow);
+  border-radius: 10px;
+}
+
+input {
+  padding: 10px;
+  margin: 10px;
+  background: transparent;
+}
+
+.wrong {
+  color: red;
+}
+
+.correct {
+  color: green;
+}
