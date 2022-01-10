@@ -50,8 +50,8 @@ describe("app", () => {
     // retrieve the first item
     let first = res.body[0];
 
-    //toEqual(2) because we need only password and email
-    expect(Object.keys(first).length).toEqual(2);
+    //toEqual(1) because we need only email
+    expect(Object.keys(first).length).toEqual(1);
 
     //Delete user
     newUser.delete();

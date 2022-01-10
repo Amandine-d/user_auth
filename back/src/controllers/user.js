@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // const User = mongoose.model("User");
 
-const createNewUser = async(req, res) => {
+const createNewUser = async (req, res) => {
   console.log(req.body)
   const { email, password } = req.body;
   if (!email || !password || password.length < 9) {
@@ -33,7 +33,7 @@ const listUsers = async (req, res) => {
   try {
     // We don't need the _id and the __v properties. mongodb was returning them automatically.
     let users = await User.find({});
-    users = users.map(filter => ({ email: filter.email, password: filter.password }))
+    users = users.map(filter => ({ email: filter.email }))
 
     return res.status(200).json(users);
   } catch (err) {
