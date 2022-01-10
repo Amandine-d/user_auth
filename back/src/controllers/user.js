@@ -8,7 +8,7 @@ const createNewUser = async(req, res) => {
   console.log(req.body)
   const { email, password } = req.body;
   if (!email || !password || password.length < 9) {
-    return res.status(400).json({ error: "Incorrect email or password" });
+    return res.status(400).json({ error: "Missing email or password" });
   }
   await User.findOne({ email: email })
     .then((existingUser) => {
