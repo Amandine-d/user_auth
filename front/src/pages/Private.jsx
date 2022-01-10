@@ -12,7 +12,7 @@ function Private({ email, password }) {
     <Outlet />
   ) : (
     <>
-      <div> You have to Log in first </div>
+      <div> You have to login first </div>
       <Login />
     </>
   );

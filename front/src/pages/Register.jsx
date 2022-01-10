@@ -20,7 +20,7 @@ function Register() {
       })
       .then(function (response) {
         console.log(response.status);
-        setUser(true)
+        setUser(true);
         setMessage("User registered successfully");
         setEmail("");
         setPassword("");
@@ -46,9 +46,11 @@ function Register() {
         minUppercase: 1,
       })
     ) {
-      setMessage("Strong Password");
+
+      return true;
     } else {
       setMessage("You need a stronger password");
+      return false;
     }
   };
   const backHome = () => {
@@ -64,12 +66,13 @@ function Register() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            checkForm();
-            registerUser();
+            if (checkForm()) {
+              registerUser();
+            }
           }}
         >
           <h1>Register</h1>
-          <div className={user ? 'correct' : 'wrong'}>{message}</div>
+          <div className={user ? "correct" : "wrong"}>{message}</div>
           <br />
           <input
             value={email}
