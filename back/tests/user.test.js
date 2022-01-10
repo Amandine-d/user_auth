@@ -21,7 +21,7 @@ describe("app", () => {
 
     //Sending correct informations (email and password) should create a user
     const countBefore = await User.countDocuments().exec();
-    const res = await request(app).post("/register").send(user).expect(200);
+    const res = await request(app).post("/register").send(user).expect(201);
     expect(res.body.email).toEqual(user.email);
     //Make sure password is hashed with bcrypt
     expect(res.body.password).not.toEqual(user.password);
@@ -66,7 +66,7 @@ describe("app", () => {
     const resError = await request(app).post("/login").send({}).expect(400);
     expect(resError.body).toEqual({ error: "Incorrect email or password" });
 
-    await request(app).post("/register").send(user).expect(200);
+    await request(app).post("/register").send(user).expect(201);
     const resIncorrectPassword = await request(app).post("/login").send({ email: user.email, password: "invalidP@sswOrd" }).expect(400);
     expect(resIncorrectPassword.body).toEqual({ error: "Incorrect email or password" });
 
