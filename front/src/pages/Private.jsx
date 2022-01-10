@@ -5,8 +5,6 @@ import Login from "./Login";
 function Private({ email, password }) {
 
   const token = localStorage.getItem("token", localStorage.token);
-  console.log("local sto in private", token);
-  console.log(localStorage);
 
   return token ? (
     <Outlet />

@@ -67,7 +67,7 @@ describe("app", () => {
     expect(resError.body).toEqual({ error: "Incorrect email or password" });
 
     await request(app).post("/register").send(user).expect(201);
-    const resIncorrectPassword = await request(app).post("/login").send({ email: user.email, password: "invalidP@sswOrd" }).expect(400);
+    const resIncorrectPassword = await request(app).post("/login").send({ email: user.email, password: "invalidP@sswOrd" }).expect(401);
     expect(resIncorrectPassword.body).toEqual({ error: "Incorrect email or password" });
 
     const resCorrectPassword = await request(app).post("/login").send(user).expect(200);

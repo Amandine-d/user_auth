@@ -52,9 +52,9 @@ const comparePassword = (req, res, next) => {
   User.findOne({ email: email })
     // console.log('Adde .body.email', req.body.email)
     .then(existingUser => {
-      //Return 400 if user does not exist
+      //Return 401 if user does not exist
       if (!existingUser) {
-        return res.status(400).json({ error: "Incorrect email or password" })
+        return res.status(401).json({ error: "Incorrect email or password" })
       }
       //Compare password
       bcrypt.compare(password, existingUser.password, function (err, result) {
@@ -62,7 +62,7 @@ const comparePassword = (req, res, next) => {
           res.locals.user = existingUser;
           return next();
         }
-        res.status(400).json({ error: "Incorrect email or password" })
+        res.status(401).json({ error: "Incorrect email or password" })
 
       })
     })

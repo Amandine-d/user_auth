@@ -16,19 +16,11 @@ function Login() {
       .then(function (response) {
         const { token } = response.data;
         localStorage.setItem("token", token);
-        // console.log(`Token ${token}`);
-        // console.log(response, 'response');
-        // console.log(localStorage, 'local')
-        // console.log(response.data.token, 'response.data.token');
-        if (token) {
-          navigate("/users");
-        } else {
-          navigate("/register");
-        }
+        navigate("/users");
       })
       .catch(function (error) {
-        console.log(error);
-        setMessage(`Something wrong happened: ${error.message}`);
+        console.log(error.response);
+        setMessage(`Something wrong happened: ${error.response.data.error}`);
       });
   };
   const backHome = () => {
@@ -48,7 +40,7 @@ function Login() {
           }}
         >
           <h1>Login</h1>
-          <div className={message ? 'wrong' : 'correct'}>{message}</div>
+          <div className={message ? "wrong" : "correct"}>{message}</div>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
