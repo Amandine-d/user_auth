@@ -1,5 +1,7 @@
 # user_auth
 Creation of a log-in page using MERN stack.
+The user has to sign up with an email and a password.
+Then, they have to login to get a token that will allow them to see the other registered users through a private route.
 
 
 ## Project setup
