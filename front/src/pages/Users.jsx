@@ -20,15 +20,14 @@ function Users() {
     <>
       <h1>Users</h1>
       <div className="container">
-      {users.map((user, index) => (
-        <div className="users" key={index}>
-          <img src={img} alt="mail with @" className="email"/>
-          <h3>{user.email}</h3>
-          <br/>
-        </div>
-      ))}
+        {users.map((user, index) => (
+          <div className="users" key={index}>
+            <img src={img} alt="mail with @" className="email" />
+            <h3>{user.email}</h3>
+            <br />
+          </div>
+        ))}
       </div>
-
       <button onClick={logOut}>Disconnect</button>
     </>
   );

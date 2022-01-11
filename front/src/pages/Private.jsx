@@ -10,7 +10,7 @@ function Private({ email, password }) {
     <Outlet />
   ) : (
     <>
-      <div> You have to login first </div>
+      <h2> You have to login first </h2>
       <Login />
     </>
   );

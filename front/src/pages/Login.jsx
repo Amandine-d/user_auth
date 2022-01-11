@@ -21,6 +21,7 @@ function Login() {
       .catch(function (error) {
         console.log(error.response);
         setMessage(`Something wrong happened: ${error.response.data.error}`);
+        setPassword('');
       });
   };
   const backHome = () => {
@@ -40,7 +41,7 @@ function Login() {
           }}
         >
           <h1>Login</h1>
-          <div className={message ? "wrong" : "correct"}>{message}</div>
+          <div className="error__message">{message}</div>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}

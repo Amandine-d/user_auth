@@ -50,7 +50,6 @@ const comparePassword = (req, res, next) => {
 
   //get User
   User.findOne({ email: email })
-    // console.log('Adde .body.email', req.body.email)
     .then(existingUser => {
       //Return 401 if user does not exist
       if (!existingUser) {

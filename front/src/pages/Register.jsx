@@ -10,7 +10,6 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [user, setUser] = useState(false);
 
   const registerUser = () => {
     axios
@@ -20,7 +19,6 @@ function Register() {
       })
       .then(function (response) {
         console.log(response.status);
-        setUser(true);
         setMessage("User registered successfully");
         setEmail("");
         setPassword("");
@@ -37,8 +35,10 @@ function Register() {
   };
 
   const checkForm = () => {
-    if (password != confirmPassword) {
+    if (password !== confirmPassword) {
       setMessage("Password fields are not a match");
+      setPassword("");
+      setConfirmPassword("");
     } else if (
       validator.isStrongPassword(password, {
         minLength: 8,
@@ -46,10 +46,11 @@ function Register() {
         minUppercase: 1,
       })
     ) {
-
       return true;
     } else {
       setMessage("You need a stronger password");
+      setPassword("");
+      setConfirmPassword("");
       return false;
     }
   };
@@ -72,7 +73,7 @@ function Register() {
           }}
         >
           <h1>Register</h1>
-          <div className={user ? "correct" : "wrong"}>{message}</div>
+          <div className="error__message">{message}</div>
           <br />
           <input
             value={email}
