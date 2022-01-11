@@ -26,7 +26,7 @@ Variables
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: var(--color-text);
 }
 
 button {
@@ -71,6 +71,6 @@ input {
 }
 
 .error__message {
-  color: red;
+  color: hsl(0, 91%, 35%);
   padding: 1rem;
 }
