@@ -37,27 +37,6 @@ describe("app", () => {
     User.deleteMany({ "email": user.email }).exec();
   });
 
-  it("GET /users", async () => {
-    expect.assertions(2);
-    //create new user to make sure there is at least one
-    const newUser = new User(user);
-
-    const countUsers = await User.countDocuments().exec();
-    const res = await request(app).get("/users").expect(200);
-
-    expect(res.body.length).toEqual(countUsers);
-
-    // retrieve the first item
-    let first = res.body[0];
-
-    //toEqual(1) because we need only email
-    expect(Object.keys(first).length).toEqual(1);
-
-    //Delete user
-    newUser.delete();
-
-  });
-
   it("POST /login", async () => {
     expect.assertions(3);
 
@@ -75,4 +54,32 @@ describe("app", () => {
 
     User.deleteMany({ "email": user.email }).exec();
   })
+
+  it("GET /users", async () => {
+    expect.assertions(2);
+    //create new user to make sure there is at least one
+    const newUser = new User(user);
+
+    const resUnauthorized = await request(app).get("/users").expect(401);
+    await request(app).get("/users?token=invalidToken").expect(401);
+
+    const resRegister = await request(app).post("/register").send(user).expect(201);
+
+    const resCorrectPassword = await request(app).post("/login").send(user).expect(200);
+    const token = resCorrectPassword.body.token;
+    const res = await request(app).get("/users?token=" + token).expect(200);
+
+    const countUsers = await User.countDocuments().exec();
+    expect(res.body.length).toEqual(countUsers);
+
+    // retrieve the first item
+    let first = res.body[0];
+
+    //toEqual(1) because we need only email
+    expect(Object.keys(first).length).toEqual(1);
+
+    //Delete user
+    newUser.delete();
+
+  });
 });

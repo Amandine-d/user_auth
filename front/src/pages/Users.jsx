@@ -7,7 +7,11 @@ import img from "../email.png";
 function Users() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8000/users").then((res) => setUsers(res.data));
+    axios
+      .get("http://localhost:8000/users", {
+        params: { token: localStorage.token }
+      })
+      .then((res) => setUsers(res.data));
   }, []);
   const navigate = useNavigate();
 

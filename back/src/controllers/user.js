@@ -71,12 +71,35 @@ const getToken = async (req, res) => {
   const user = res.locals.user;
   const token = jwt.sign({ email: user.email }, process.env.SECRET);
   return res.status(200).json({ token: token });
+}
 
+const verifyToken = async (req, res, next) => {
+  try {
+    // const decoded = await jwt.verify(req.body.token, process.env.SECRET);
+    jwt.verify(req.query.token, process.env.SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      User.findOne({ email: decoded.email })
+        .then(existingUser => {
+          if (existingUser) {
+            return next();
+          } else {
+            return res.status(401).json({ error: "Unauthorized" });
+          }
+        });
+    });
+  }
+  catch (err) {
+    console.log(err);
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 }
 
 module.exports = {
   createNewUser,
   listUsers,
   comparePassword,
+  verifyToken,
   getToken,
 }

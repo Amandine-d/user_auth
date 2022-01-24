@@ -5,7 +5,7 @@ router.post("/register",
   userController.createNewUser,
 );
 
-router.get("/users", userController.listUsers,
+router.get("/users", userController.verifyToken, userController.listUsers,
 );
 
 router.post("/login", userController.comparePassword, userController.getToken,
